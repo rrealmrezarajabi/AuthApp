@@ -11,14 +11,7 @@ function LoginPage() {
   const loginMutation = useLogin();
 
   const onSubmit = (data) => {
-    loginMutation.mutate(data, {
-      onSuccess: (res) => {
-        console.log("Login successful:", res.data);
-      },
-      onError: (error) => {
-        console.error("Login failed:", error);
-      },
-    });
+    loginMutation.mutate(data);
   };
 
   return (
