@@ -1,16 +1,54 @@
-# React + Vite
+# Test Auth App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite demo with a simple auth flow, protected dashboard, React Query for mutations, React Hook Form for validation, and Tailwind for styling.
 
-Currently, two official plugins are available:
+## Quick start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+pnpm install   # or npm/yarn
+pnpm dev
+```
 
-## React Compiler
+Open http://localhost:5173.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Scripts
 
-## Expanding the ESLint configuration
+- `pnpm dev` – run dev server
+- `pnpm build` – production build
+- `pnpm preview` – preview build output
+- `pnpm lint` – eslint check
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech stack
+
+- React 19 + Vite
+- React Router for routing & protected routes
+- React Query for mutations/fetching
+- React Hook Form for form handling
+- Axios client with base URL (`http://localhost:3000/api`)
+- Tailwind CSS (v4) for UI styling
+
+## Auth flow (client)
+
+1. Login/Signup pages post credentials via `authApi` (Axios).
+2. On login success, access token is stored in `localStorage` and attached to Axios `Authorization` header.
+3. `AuthContext` persists token on reload and exposes `login/logout` plus `isAuthenticated`.
+4. `ProtectedRoute` gates the dashboard; unauthenticated users are redirected to `/login`.
+
+## Project structure (key parts)
+
+- `src/api/` – Axios client and auth API calls
+- `src/context/AuthContext.jsx` – token state, persistence, and auth helpers
+- `src/hooks/` – React Query hooks (`useLogin`, `useRegister`, `useProfile`)
+- `src/pages/` – `Login`, `SignUp`, `DashBoard`
+- `src/components/ProtectedRoute.jsx` – route guard
+- `src/index.css` – Tailwind entrypoint
+
+## Backend expectations
+
+- Endpoints:
+  - `POST /auth/login` → returns `{ token }`
+  - `POST /auth/register` → returns `{ token }` or success
+  - `GET /auth/me` → returns user profile (requires `Authorization: Bearer <token>`)
+- Base URL is `http://localhost:3000/api`; adjust in `src/api/axiosClient.js` or via env (e.g., `VITE_API_URL`).
+
+
