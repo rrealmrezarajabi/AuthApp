@@ -1,4 +1,3 @@
-// src/hooks/useProfile.js
 import { useQuery } from "@tanstack/react-query";
 import { authApi } from "../api/authApi";
 import { useAuth } from "../context/AuthContext";

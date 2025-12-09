@@ -1,4 +1,3 @@
-// src/pages/DashboardPage.jsx
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../hooks/useProfile";

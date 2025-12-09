@@ -1,4 +1,3 @@
-// src/pages/RegisterPage.jsx
 import { useForm } from "react-hook-form";
 import { useRegister } from "../hooks/useRegister";
 import { useNavigate } from "react-router-dom";

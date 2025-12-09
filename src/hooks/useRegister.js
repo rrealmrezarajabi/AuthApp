@@ -1,4 +1,3 @@
-// src/hooks/useRegister.js
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "../api/authApi";
 
