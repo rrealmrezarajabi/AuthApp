@@ -1,0 +1,14 @@
+// src/api/authApi.js
+import axiosClient from "./axiosClient";
+
+export const authApi = {
+  login: (data) => {
+    return axiosClient.post("/auth/login", data);
+  },
+  register: (data) => {
+    return axiosClient.post("/auth/register", data);
+  },
+  getProfile: () => {
+    return axiosClient.get("/auth/me");
+  },
+};
