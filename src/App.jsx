@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import DashBoard from "./pages/DashBoard";
 import { Link, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 const App = () => {
   return (
     <div>
@@ -14,7 +15,14 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/dashboard" element={<DashBoard />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashBoard />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/" element={<Login />} />
       </Routes>
     </div>
