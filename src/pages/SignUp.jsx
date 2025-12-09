@@ -18,7 +18,7 @@ function SignUp() {
     registerMutation.mutate(data, {
       onSuccess: () => {
         // After successful sign up, redirect to login
-        navigate("/login");
+        navigate("/dashboard");
       },
     });
   };

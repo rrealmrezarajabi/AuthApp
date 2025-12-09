@@ -4,13 +4,24 @@ import SignUp from "./pages/SignUp";
 import DashBoard from "./pages/DashBoard";
 import { Link, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { useAuth } from "./context/AuthContext";
 const App = () => {
+  const { isAuthenticated } = useAuth();
   return (
     <div>
       <nav style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
-        <Link to="/login">Login</Link>
-        <Link to="/signup">SignUp</Link>
-        <Link to="/dashboard">Dashboard</Link>
+        {!isAuthenticated && (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Register</Link>
+          </>
+        )}
+
+        {isAuthenticated && (
+          <>
+            <Link to="/dashboard">Dashboard</Link>
+          </>
+        )}
       </nav>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -23,7 +34,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<DashBoard />} />
       </Routes>
     </div>
   );

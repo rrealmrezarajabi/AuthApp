@@ -5,9 +5,9 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // ← new
 
   useEffect(() => {
-    // Auto login from localStorage
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
         "Authorization"
       ] = `Bearer ${storedToken}`;
     }
+    setIsLoading(false); // ← done loading
   }, []);
 
   const login = (newToken) => {
@@ -29,20 +30,21 @@ export function AuthProvider({ children }) {
     delete axiosClient.defaults.headers.common["Authorization"];
   };
 
-  const value = {
-    token,
-    isAuthenticated: !!token,
-    login,
-    logout,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        token,
+        isAuthenticated: !!token,
+        login,
+        logout,
+        isLoading, // expose loading state
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) {
-    throw new Error("useAuth must be used within AuthProvider");
-  }
-  return ctx;
+  return useContext(AuthContext);
 }
