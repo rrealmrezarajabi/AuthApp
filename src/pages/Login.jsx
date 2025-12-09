@@ -1,17 +1,22 @@
 import { useForm } from "react-hook-form";
-
+import { useLogin } from "../hooks/useLogin";
 function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
-
+   const loginMutation = useLogin();
   const onSubmit = (data) => {
-    console.log("Login form data:", data);
-    // Later we will call a login mutation here
+    loginMutation.mutate(data, {
+      onSuccess: (res) => {
+        console.log("Login successful:", res.data);
+      },
+      onError: (error) => {
+        console.error("Login failed:", error);
+      },
+    });
   };
-
   return (
     <div style={{ maxWidth: "400px", margin: "0 auto" }}>
       <h2>Login</h2>
