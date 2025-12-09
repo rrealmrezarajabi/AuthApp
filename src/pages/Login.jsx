@@ -1,12 +1,15 @@
+// src/pages/LoginPage.jsx
 import { useForm } from "react-hook-form";
 import { useLogin } from "../hooks/useLogin";
-function Login() {
+
+function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
-   const loginMutation = useLogin();
+  const loginMutation = useLogin();
+
   const onSubmit = (data) => {
     loginMutation.mutate(data, {
       onSuccess: (res) => {
@@ -17,62 +20,38 @@ function Login() {
       },
     });
   };
+
   return (
     <div style={{ maxWidth: "400px", margin: "0 auto" }}>
       <h2>Login</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Email field */}
-        <div style={{ marginBottom: "1rem" }}>
-          <label htmlFor="email">Email</label>
-          <br />
-          <input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Invalid email format",
-              },
-            })}
-          />
+        {/* Email */}
+        <div>
+          <label>Email</label>
+          <input {...register("email", { required: "Email is required" })} />
           {errors.email && (
-            <p style={{ color: "red", fontSize: "0.9rem" }}>
-              {errors.email.message}
-            </p>
+            <p style={{ color: "red" }}>{errors.email.message}</p>
           )}
         </div>
 
-        {/* Password field */}
-        <div style={{ marginBottom: "1rem" }}>
-          <label htmlFor="password">Password</label>
-          <br />
+        {/* Password */}
+        <div>
+          <label>Password</label>
           <input
-            id="password"
             type="password"
-            placeholder="Enter your password"
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 6,
-                message: "Password must be at least 6 characters",
-              },
-            })}
+            {...register("password", { required: "Password is required" })}
           />
           {errors.password && (
-            <p style={{ color: "red", fontSize: "0.9rem" }}>
-              {errors.password.message}
-            </p>
+            <p style={{ color: "red" }}>{errors.password.message}</p>
           )}
         </div>
 
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Login"}
+        <button type="submit">
+          {loginMutation.isLoading ? "Loading..." : "Login"}
         </button>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default LoginPage;
